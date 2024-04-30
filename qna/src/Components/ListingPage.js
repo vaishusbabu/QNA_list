@@ -27,31 +27,36 @@ function ListingPage() {
             let newIndex = direction === 'up' ? indexToMove - 1 : indexToMove + 1;
             if (newIndex >= 0 && newIndex < selectedItems.length) {
                 const newSelectedItems = [...selectedItems];
-                const itemToMove = newSelectedItems.splice(indexToMove, 1)[0]; // Remove the item from its current position
-                newSelectedItems.splice(newIndex, 0, itemToMove); // Insert the item at the new position
+                const itemToMove = newSelectedItems.splice(indexToMove, 1)[0]; //remove  item from its current position
+                newSelectedItems.splice(newIndex, 0, itemToMove); //insert item at new position
                 setSelectedItems(newSelectedItems);
+                console.log("newSelectedItems", newSelectedItems);
                 setSelectedItemIndex([newIndex]);
+                console.log("newIndex", newIndex);
             }
         } else if (selectedItemIndex.length === 2) {
             const [index1, index2] = selectedItemIndex;
+
             let newIndex1 = direction === 'up' ? index1 - 1 : index1 + 1;
             let newIndex2 = direction === 'up' ? index2 - 1 : index2 + 1;
 
             if (newIndex1 >= 0 && newIndex1 < selectedItems.length &&
                 newIndex2 >= 0 && newIndex2 < selectedItems.length) {
                 const newSelectedItems = [...selectedItems];
-                const itemToMove1 = newSelectedItems.splice(index1, 1)[0]; // Remove the first item
-                const itemToMove2 = newSelectedItems.splice(index2 - 1, 1)[0]; // Remove the second item, adjust index since the first item was removed
-                newSelectedItems.splice(newIndex1, 0, itemToMove1); // Insert the first item at the new position
-                newSelectedItems.splice(newIndex2, 0, itemToMove2); // Insert the second item at the new position
+                const itemToMove1 = newSelectedItems.splice(index1, 1)[0]; //remove first item
+                const itemToMove2 = newSelectedItems.splice(index2 - 1, 1)[0]; //remove  second item adjust 
+                newSelectedItems.splice(newIndex1, 0, itemToMove1); //insert first item at new position
+                newSelectedItems.splice(newIndex2, 0, itemToMove2); //insert second item atnew position
+
                 setSelectedItems(newSelectedItems);
+
+                console.log("in multi newSelectedItems", newIndex1, newIndex2);
                 setSelectedItemIndex([newIndex1, newIndex2]);
             }
         }
     };
 
-
-    //from all items 
+    //from all items
 
     const handleItemClick = (index) => {
         if (!selectedIndices.includes(index) && selectedIndices.length < 2) {
