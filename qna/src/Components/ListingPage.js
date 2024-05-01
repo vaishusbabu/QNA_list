@@ -155,7 +155,6 @@ function ListingPage() {
         }
     };
 
-
     const handleItemClick = (index) => {
         if (!selectedIndices.includes(index) && selectedIndices.length < 3) {
             setSelectedIndices([...selectedIndices, index]);
@@ -171,9 +170,8 @@ function ListingPage() {
 
         setSelectedItems([...selectedItems, ...newSelectedItems]);
         setAllItems(newAllItems);
-        setSelectedIndices([]);
+        setSelectedIndices([]); // Reset selectedIndices to remove selected items from all items list
     };
-
 
     //selected for up down position change -multiple
 
@@ -185,71 +183,68 @@ function ListingPage() {
 
     return (
         <div className='maincontainer'>
+
             <div className="box">
                 <h6>All items</h6>
+                <hr />
                 <div>
-                    <ul className="news-list">
+                    {allItems.length === 0 && <p>No result</p>}
+                    <ul class="list-group">
                         {allItems.map((item, index) => (
-                            <li key={index}>
-
+                            <li class="list-group-item list-group-item-secondary" key={index}>
                                 <button
-                                    className="news-item active"
                                     style={{ backgroundColor: selectedIndices.includes(index) ? 'grey' : 'transparent' }}
                                     onClick={() => { handleItemClick(index); setIsUpButtonClicked(true); }}
                                 >
                                     <h4 style={{ backgroundColor: isUpButtonClicked ? 'white' : 'transparent' }}>{item}</h4>
                                 </button>
-
                             </li>
                         ))}
                     </ul>
                 </div>
             </div>
             <div className='box btn-wrapper'>
-                <button onClick={handleMove}>
-
-                    <img width={"12px"} src="https://www.svgrepo.com/show/70596/left-arrow.svg" alt='btn' />
-                </button>
-                <button onClick={handleSide}>
-                    <img width={"12px"} src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRga9lBVVw6reQpry-BgPCVeVw9MWyUYa-BN8hOYv-ucA&s" title="top icons" alt='btn' />
+                <button type="button" class="btn btn-outline-dark" onClick={handleMove}>
+                    <img width={"20px"} src="https://www.svgrepo.com/show/70596/left-arrow.svg" alt='btn' />
+                </button> {" "}
+                <button type="button" class="btn btn-outline-dark" onClick={handleSide}>
+                    <img width={"23px"} src="https://flyclipart.com/thumb2/arrow-symbols-png-png-image-290937.png" title="top icons" alt='btn' />
                 </button>
             </div>
-
             <div className='box'>
                 <div className='only-flex'>
                     <h6>Selected items</h6>
-
-                    <ul className="news-list">
-
+                    <hr />
+                    {selectedItems.length === 0 && <p>No result</p>}
+                    <ul class="list-group">
                         {selectedItems.map((item, index) => (
-                            <li key={index}>
+                            <li class="list-group-item list-group-item-success" key={index}>
                                 <button
                                     className="news-item active"
-                                    style={{ backgroundColor: selectedItemIndex.includes(index) ? 'grey' : 'transparent' }}
+                                    style={{ backgroundColor: selectedItemIndex.includes(index) ? 'white' : 'transparent' }}
                                     onClick={() => { handleItemClicked(index); setIsDownButtonClicked(true); }}
                                 >
                                     <h4>{item}</h4>
                                 </button>
                             </li>
                         ))}
-
                     </ul>
                 </div>
             </div>
-
             <div className='up-btn-wrap wrap-flex'>
-                <button onClick={() => handleMoveItem('up')}>
-                    <img width={"12px"} src="https://w7.pngwing.com/pngs/405/699/png-transparent-black-up-arrow-icon-brand-pattern-up-arrow-angle-web-design-text-thumbnail.png " title="top icons" alt='btn' />
+                <button type="button" class="btn btn-outline-dark" onClick={() => handleMoveItem('up')}>
+                    <img width={"20px"} src="https://w7.pngwing.com/pngs/405/699/png-transparent-black-up-arrow-icon-brand-pattern-up-arrow-angle-web-design-text-thumbnail.png " title="top icons" alt='btn' />
                 </button>
                 <br />
-                <button onClick={() => handleMoveItem('down')}>
-                    <img width={"12px"} src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ1dhwvtOZi_f-YhgpCcs40ZxBvEWup8sSnoTrKoi-Zo7aCgPpbviimmGX0maWFscstruY&usqp=CAU "
+                <br />
+                <button type="button" class="btn btn-outline-dark" onClick={() => handleMoveItem('down')}>
+                    <img width={"20px"} src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ1dhwvtOZi_f-YhgpCcs40ZxBvEWup8sSnoTrKoi-Zo7aCgPpbviimmGX0maWFscstruY&usqp=CAU "
                         title="top icons" alt='btn' />
                 </button>
             </div>
-
         </div>
     );
+
 }
 
 export default ListingPage;
