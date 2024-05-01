@@ -4,7 +4,11 @@ function ListingPage() {
 
     const [selectedItems, setSelectedItems] = useState([
         "G7 eyes possible end date for coal-fired power plants",
-        "Columbia protests LIVE updates | University president asks police to remain on campus until May 17"
+        "Columbia protests LIVE updates | University president asks police to remain on campus until May 17",
+        "Little correlation between higher temperatures and lower turnout: Data",
+        "Competition and conflict: On the U.S.-China relationship ",
+        "Empowering Strategic Thinkers: IIM Kozhikode’s Advanced Strategic Management Programme",
+        "Slow and steady, be more wealthy: More start-ups eye private equity funds, bypass VCs"
     ]);
 
     // const [selectedItems, setSelectedItems] = useState([]); //all items selected
@@ -23,54 +27,16 @@ function ListingPage() {
     const [isDownButtonClicked, setIsDownButtonClicked] = useState(false);
 
 
-    // const handleMoveItem = (direction) => {
-
-    //     console.log(" all selectedItems", selectedItems);
-    //     console.log(" selected index,", selectedItemIndex);
-
-    //     if (selectedItemIndex.length === 1) {
-    //         const indexToMove = selectedItemIndex[0];
-    //         let newIndex = direction === 'up' ? indexToMove - 1 : indexToMove + 1;
-    //         if (newIndex >= 0 && newIndex < selectedItems.length) {
-    //             const newSelectedItems = [...selectedItems];
-    //             const itemToMove = newSelectedItems.splice(indexToMove, 1)[0]; //remove  item from its current position
-    //             newSelectedItems.splice(newIndex, 0, itemToMove); //insert item at new position
-    //             setSelectedItems(newSelectedItems);
-    //             console.log("newSelectedItems", newSelectedItems);
-    //             setSelectedItemIndex([newIndex]);
-    //             console.log("newIndex", newIndex);
-    //         }
-    //     } else if (selectedItemIndex.length === 2) {
-    //         const [index1, index2] = selectedItemIndex;
-
-    //         let newIndex1 = direction === 'up' ? index1 - 1 : index1 + 1;
-    //         let newIndex2 = direction === 'up' ? index2 - 1 : index2 + 1;
-
-    //         if (newIndex1 >= 0 && newIndex1 < selectedItems.length &&
-    //             newIndex2 >= 0 && newIndex2 < selectedItems.length) {
-    //             const newSelectedItems = [...selectedItems];
-    //             const itemToMove1 = newSelectedItems.splice(index1, 1)[0]; //remove first item
-    //             const itemToMove2 = newSelectedItems.splice(index2 - 1, 1)[0]; //remove  second item adjust 
-    //             newSelectedItems.splice(newIndex1, 0, itemToMove1); //insert first item at new position
-    //             newSelectedItems.splice(newIndex2, 0, itemToMove2); //insert second item atnew position
-
-    //             setSelectedItems(newSelectedItems);
-
-    //             console.log("in multi newSelectedItems", newIndex1, newIndex2);
-    //             setSelectedItemIndex([newIndex1, newIndex2]);
-    //         }
-    //     }
-    // };
 
     const handleMove = () => {
         let newSelectedItems = [...selectedItems];
         let newAllItems = [...allItems];
 
-        const sortedSelectedIndices = [...selectedItemIndex].sort((a, b) => a - b);
+        const sortedSelectedIndices = [...selectedItemIndex].sort((a, b) => b - a);
 
         sortedSelectedIndices.forEach((index) => {
             const itemToMove = newSelectedItems.splice(index, 1)[0];
-            newAllItems.push(itemToMove);
+            newAllItems.unshift(itemToMove);
         });
 
         setSelectedItems(newSelectedItems);
@@ -79,82 +45,27 @@ function ListingPage() {
     };
 
     const handleMoveItem = (direction) => {
-        console.log(" all selectedItems", selectedItems);
-        console.log(" selected index,", selectedItemIndex);
+        console.log("all selectedItems", selectedItems);
+        console.log("selected index,", selectedItemIndex);
 
-        if (selectedItemIndex.length === 1) {
-            const indexToMove = selectedItemIndex[0];
-            let newIndex = direction === 'up' ? indexToMove - 1 : indexToMove + 1;
-            if (newIndex >= 0 && newIndex < selectedItems.length) {
-                const newSelectedItems = [...selectedItems];
-                const itemToMove = newSelectedItems.splice(indexToMove, 1)[0];
+        const newSelectedItems = [...selectedItems];
+
+        const sortedSelectedIndices = [...selectedItemIndex].sort((a, b) => direction === 'up' ? a - b : b - a);
+
+        sortedSelectedIndices.forEach((index) => {
+            let newIndex = direction === 'up' ? index - 1 : index + 1;
+            if (newIndex >= 0 && newIndex < newSelectedItems.length) {
+                const itemToMove = newSelectedItems.splice(index, 1)[0];
                 newSelectedItems.splice(newIndex, 0, itemToMove);
-                setSelectedItems(newSelectedItems);
-                console.log("newSelectedItems", newSelectedItems);
-                setSelectedItemIndex([newIndex]);
-                console.log("newIndex", newIndex);
             }
-        } else if (selectedItemIndex.length === 2) {
-            const [index1, index2] = selectedItemIndex;
+        });
 
-            let newIndex1 = direction === 'up' ? index1 - 1 : index1 + 1;
-            let newIndex2 = direction === 'up' ? index2 - 1 : index2 + 1;
+        setSelectedItems(newSelectedItems);
 
-            if (direction === 'up') {
-                if (index2 > index1) {
-                    newIndex2 = index1; // Move the lower item to the position of the middle item
-                }
-            } else { // direction === 'down'
-                if (index2 < index1) {
-                    newIndex2 = index1; // Move the lower item to the position of the middle item
-                }
-            }
-
-            if (newIndex1 >= 0 && newIndex1 < selectedItems.length &&
-                newIndex2 >= 0 && newIndex2 < selectedItems.length) {
-                const newSelectedItems = [...selectedItems];
-                const itemToMove1 = newSelectedItems.splice(index1, 1)[0];
-                const itemToMove2 = newSelectedItems.splice(index2 - 1, 1)[0];
-                newSelectedItems.splice(newIndex1, 0, itemToMove1);
-                newSelectedItems.splice(newIndex2, 0, itemToMove2);
-                setSelectedItems(newSelectedItems);
-                console.log("in multi newSelectedItems", newIndex1, newIndex2);
-                setSelectedItemIndex([newIndex1, newIndex2]);
-            }
-        } else if (selectedItemIndex.length === 3) {
-            const [index1, index2, index3] = selectedItemIndex;
-
-            let newIndex1 = direction === 'up' ? index1 - 1 : index1 + 1;
-            let newIndex2 = direction === 'up' ? index2 - 1 : index2 + 1;
-            let newIndex3 = direction === 'up' ? index3 - 1 : index3 + 1;
-
-            if (direction === 'up') {
-                if (index2 > index1) {
-                    newIndex2 = index1; // Move the lower item to the position of the middle item
-                }
-            } else { // direction === 'down'
-                if (index2 < index1) {
-                    newIndex2 = index1; // Move the lower item to the position of the middle item
-                }
-            }
-
-            if (newIndex1 >= 0 && newIndex1 < selectedItems.length &&
-                newIndex2 >= 0 && newIndex2 < selectedItems.length &&
-                newIndex3 >= 0 && newIndex3 < selectedItems.length) {
-                const newSelectedItems = [...selectedItems];
-                const itemToMove1 = newSelectedItems.splice(index1, 1)[0];
-                const itemToMove2 = newSelectedItems.splice(index2 - 1, 1)[0];
-                const itemToMove3 = newSelectedItems.splice(index3 - 2, 1)[0];
-                newSelectedItems.splice(newIndex1, 0, itemToMove1);
-                newSelectedItems.splice(newIndex2, 0, itemToMove2);
-                newSelectedItems.splice(newIndex3, 0, itemToMove3);
-                setSelectedItems(newSelectedItems);
-                console.log("in multi newSelectedItems", newIndex1, newIndex2, newIndex3);
-                setSelectedItemIndex([newIndex1, newIndex2, newIndex3]);
-            }
-        }
+        setSelectedItemIndex(sortedSelectedIndices.map(index => direction === 'up' ? index - 1 : index + 1));
     };
 
+    //the item is not already selected, and fewer than three items are currently selected
     const handleItemClick = (index) => {
         if (!selectedIndices.includes(index) && selectedIndices.length < 3) {
             setSelectedIndices([...selectedIndices, index]);
@@ -170,11 +81,10 @@ function ListingPage() {
 
         setSelectedItems([...selectedItems, ...newSelectedItems]);
         setAllItems(newAllItems);
-        setSelectedIndices([]); // Reset selectedIndices to remove selected items from all items list
+        setSelectedIndices([]);
     };
 
     //selected for up down position change -multiple
-
     const handleItemClicked = (index) => {
         if (!selectedItemIndex.includes(index) && selectedItemIndex.length < 3) {
             setSelectedItemIndex([...selectedItemIndex, index]);
@@ -193,7 +103,7 @@ function ListingPage() {
                         {allItems.map((item, index) => (
                             <li class="list-group-item list-group-item-secondary" key={index}>
                                 <button
-                                    style={{ backgroundColor: selectedIndices.includes(index) ? 'grey' : 'transparent' }}
+                                    style={{ backgroundColor: selectedIndices.includes(index) ? 'darkgreen' : 'transparent' }}
                                     onClick={() => { handleItemClick(index); setIsUpButtonClicked(true); }}
                                 >
                                     <h4 style={{ backgroundColor: isUpButtonClicked ? 'white' : 'transparent' }}>{item}</h4>
