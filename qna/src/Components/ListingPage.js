@@ -63,14 +63,19 @@ function ListingPage() {
     // };
 
     const handleMove = () => {
-        if (selectedItemIndex.length === 1) {
-            const indexToMove = selectedItemIndex[0];
-            const itemToMove = selectedItems[indexToMove];
-            const newSelectedItems = selectedItems.filter((item, index) => index !== indexToMove);
-            setAllItems([...allItems, itemToMove]);
-            setSelectedItems(newSelectedItems);
-            setSelectedItemIndex([]);
-        }
+        let newSelectedItems = [...selectedItems];
+        let newAllItems = [...allItems];
+
+        const sortedSelectedIndices = [...selectedItemIndex].sort((a, b) => a - b);
+
+        sortedSelectedIndices.forEach((index) => {
+            const itemToMove = newSelectedItems.splice(index, 1)[0];
+            newAllItems.push(itemToMove);
+        });
+
+        setSelectedItems(newSelectedItems);
+        setAllItems(newAllItems);
+        setSelectedItemIndex([]);
     };
 
     const handleMoveItem = (direction) => {
@@ -116,11 +121,43 @@ function ListingPage() {
                 console.log("in multi newSelectedItems", newIndex1, newIndex2);
                 setSelectedItemIndex([newIndex1, newIndex2]);
             }
+        } else if (selectedItemIndex.length === 3) {
+            const [index1, index2, index3] = selectedItemIndex;
+
+            let newIndex1 = direction === 'up' ? index1 - 1 : index1 + 1;
+            let newIndex2 = direction === 'up' ? index2 - 1 : index2 + 1;
+            let newIndex3 = direction === 'up' ? index3 - 1 : index3 + 1;
+
+            if (direction === 'up') {
+                if (index2 > index1) {
+                    newIndex2 = index1; // Move the lower item to the position of the middle item
+                }
+            } else { // direction === 'down'
+                if (index2 < index1) {
+                    newIndex2 = index1; // Move the lower item to the position of the middle item
+                }
+            }
+
+            if (newIndex1 >= 0 && newIndex1 < selectedItems.length &&
+                newIndex2 >= 0 && newIndex2 < selectedItems.length &&
+                newIndex3 >= 0 && newIndex3 < selectedItems.length) {
+                const newSelectedItems = [...selectedItems];
+                const itemToMove1 = newSelectedItems.splice(index1, 1)[0];
+                const itemToMove2 = newSelectedItems.splice(index2 - 1, 1)[0];
+                const itemToMove3 = newSelectedItems.splice(index3 - 2, 1)[0];
+                newSelectedItems.splice(newIndex1, 0, itemToMove1);
+                newSelectedItems.splice(newIndex2, 0, itemToMove2);
+                newSelectedItems.splice(newIndex3, 0, itemToMove3);
+                setSelectedItems(newSelectedItems);
+                console.log("in multi newSelectedItems", newIndex1, newIndex2, newIndex3);
+                setSelectedItemIndex([newIndex1, newIndex2, newIndex3]);
+            }
         }
     };
 
+
     const handleItemClick = (index) => {
-        if (!selectedIndices.includes(index) && selectedIndices.length < 2) {
+        if (!selectedIndices.includes(index) && selectedIndices.length < 3) {
             setSelectedIndices([...selectedIndices, index]);
         }
     };
@@ -141,7 +178,7 @@ function ListingPage() {
     //selected for up down position change -multiple
 
     const handleItemClicked = (index) => {
-        if (!selectedItemIndex.includes(index) && selectedItemIndex.length < 2) {
+        if (!selectedItemIndex.includes(index) && selectedItemIndex.length < 3) {
             setSelectedItemIndex([...selectedItemIndex, index]);
         }
     };
