@@ -1,1 +1,1 @@
-# QNA_list
+# qna_slider
