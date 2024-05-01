@@ -62,6 +62,16 @@ function ListingPage() {
     //     }
     // };
 
+    const handleMove = () => {
+        if (selectedItemIndex.length === 1) {
+            const indexToMove = selectedItemIndex[0];
+            const itemToMove = selectedItems[indexToMove];
+            const newSelectedItems = selectedItems.filter((item, index) => index !== indexToMove);
+            setAllItems([...allItems, itemToMove]);
+            setSelectedItems(newSelectedItems);
+            setSelectedItemIndex([]);
+        }
+    };
 
     const handleMoveItem = (direction) => {
         console.log(" all selectedItems", selectedItems);
@@ -109,24 +119,24 @@ function ListingPage() {
         }
     };
 
-
-    //from all items
-
     const handleItemClick = (index) => {
         if (!selectedIndices.includes(index) && selectedIndices.length < 2) {
             setSelectedIndices([...selectedIndices, index]);
-
         }
     };
-    // approve select buttons  
+
     const handleSide = () => {
         const newSelectedItems = selectedIndices
             .filter((index) => !selectedItems.includes(allItems[index]))
             .map((index) => allItems[index]);
 
+        const newAllItems = allItems.filter((item, index) => !selectedIndices.includes(index));
+
         setSelectedItems([...selectedItems, ...newSelectedItems]);
+        setAllItems(newAllItems);
         setSelectedIndices([]);
     };
+
 
     //selected for up down position change -multiple
 
@@ -159,7 +169,7 @@ function ListingPage() {
                 </div>
             </div>
             <div className='box btn-wrapper'>
-                <button>
+                <button onClick={handleMove}>
 
                     <img width={"12px"} src="https://www.svgrepo.com/show/70596/left-arrow.svg" alt='btn' />
                 </button>
